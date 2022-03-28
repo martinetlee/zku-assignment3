@@ -1,3 +1,4 @@
+pragma circom 2.0.0;
 /*
 
 In DarkForest the move circuit allows a player to hop from one planet to another.
@@ -33,7 +34,7 @@ Also, verify that the move distances (A → B and B → C) are within the energy
 
 */
 
-include "../../client/node_modules/circomlib/circuits/comparators.circom"
+include "./node_modules/circomlib/circuits/comparators.circom";
 
 template CheckEnergy() {
     signal input x1;
@@ -43,6 +44,8 @@ template CheckEnergy() {
     signal input y2;
 
     signal input energy;
+    signal firstDistSquare;
+    signal secondDistSquare;
 
     signal diffX;
     diffX <== x1 - x2;
@@ -50,8 +53,6 @@ template CheckEnergy() {
     diffY <== y1 - y2;
 
     component ltDist = LessThan(32);
-    signal firstDistSquare;
-    signal secondDistSquare
     firstDistSquare <== diffX * diffX;
     secondDistSquare <== diffY * diffY;
     ltDist.in[0] <== firstDistSquare + secondDistSquare;
@@ -63,14 +64,14 @@ template CheckEnergy() {
 template EnergyTriangleJump() {
 
     // Triangular jump, A => B => C => A
-    signal private input ax;
-    signal private input ay;
+    signal input ax;
+    signal input ay;
 
-    signal private input bx;
-    signal private input by;
+    signal input bx;
+    signal input by;
 
-    signal private input cx;
-    signal private input cy;
+    signal input cx;
+    signal input cy;
 
     signal input p2;
     signal input r;
@@ -86,7 +87,7 @@ template EnergyTriangleJump() {
     // Q: Can I have multiple calculations in a line?
     area <== ax * (by - cy) + bx * (cy - ay) + cx * (ay - by);
     // Q: can I assert non-equal?
-    area !== 0;
+    assert(area > 0);
     // ###########################################################
 
     component abEnergy = CheckEnergy();

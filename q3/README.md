@@ -6,5 +6,9 @@ The current MACI does not prevent the coordinator from reading voters actions. E
 
 ## 2. How can a pseudorandom dice roll be simulated using just Solidity?
 
-Keccak a Blockhash. Miner can manipulate the blockhash.
+Keccak a Blockhash. 
 
+### issues?
+Miner can manipulate the blockhash.
+
+### 
